@@ -5,10 +5,16 @@ import userEvent from '@testing-library/user-event'
 import Display from '../Display'
 
 const testSeasons = [
-    {id:0, name: "Season 1", episodes: []}, 
-    {id:1, name: "Season 2", episodes: []}, 
-    {id:2, name: "Season 3", episodes: []}, 
-    {id:3, name: "Season 4", episodes: []}
+    {
+        id:0, 
+        name: "Season 1", 
+        episodes: []
+    }, 
+    {
+        id:1, 
+        name: "Season 2", 
+        episodes: []
+    }, 
 ]
 
 const testEmptySeasons = [{}]
@@ -24,32 +30,15 @@ test('fetch button pressed, components show', async () => {
     userEvent.click(fetchButton)
 
     const showSeason = await screen.findAllByTestId('season-option')
-    // console.log(showSeason)
     expect(showSeason).toBeInTheDocument
 })
 
-test('rerender shows test data', async () => {
-    const {rerender} = render(<Display show={testEmptySeasons}/>)
-    console.log(testEmptySeasons)
-    
-    let fetchButton = screen.getByRole('button')
-    userEvent.click(fetchButton)
+test('fetch button pressed showed correct amount of select options',  async () => {
+    render(<Display/>)
+})
 
-    let showSeason = await screen.findAllByTestId('season-option')
-    console.log(showSeason.length)
-    // expect(showSeason.length).toEqual(4)
-
-    // // // ---
-
-    // rerender(<Display show={testSeasons}/>)
-    // const fetchAButton = screen.getByRole('button')
-    // console.log(fetchAButton)
-    // fetchButton = screen.getByRole('button')
-    // userEvent.click(fetchButton)
-
-    // showSeason = await screen.findAllByTestId('season-option')
-    // console.log(showSeason.length)
-    // expect(showSeasons).toHaveLength(3)
+test('optional func prop is called when fetch is pressed', () => {
+    render(<Display/>)
 })
 
 ///Tasks:

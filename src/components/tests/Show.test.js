@@ -38,7 +38,7 @@ test('renders Loading component when prop show is null', () => {
     render(<Show show={nullShow}/>)
 });
 
-test('renders same number of options seasons are passed in', ()=>{
+test('renders same number of options as seasons are passed in', ()=>{
     render(<Show show={testShow} selectedSeason="none"/>)
     
     const listOfSeasons = screen.queryAllByTestId('season-option')
@@ -48,26 +48,18 @@ test('renders same number of options seasons are passed in', ()=>{
 });
 
 test('handleSelect is called when an season is selected', async () => {
-    const mockHandle = jest.fn(() => {
-        console.log(`halp`)
-    })
+    const mockSelect = jest.fn();
 
     render(<Show 
         show={testShow} 
-        selectedSeason="none" 
-        handleSelect={mockHandle}
+        selectedSeason={'none'} 
+        handleSelect={mockSelect} 
     />)
 
-    const selectSeason = await screen.queryByText("Select A Season Here")
-    // console.log('hi ' + selectSeason)
-    userEvent.click(selectSeason)
-
-    const clickSeasonThree = await screen.queryByText("S3")
-    // console.log(`kill me ${clickSeasonThree}`)
-    userEvent.click(clickSeasonThree)
-
-    expect(clickSeasonThree).toBeVisible
-    expect(mockHandle).toHaveBeenCalled()
+    const getSeasonThree = screen.getByLabelText('Select A Season')
+    
+    userEvent.selectOptions(getSeasonThree, ['3'])
+    expect(mockSelect).toHaveBeenCalled();
 });
 
 test('component renders when no seasons are selected and when rerenders with a season passed in', () => {
